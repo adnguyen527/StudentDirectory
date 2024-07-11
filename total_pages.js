@@ -1,0 +1,50 @@
+const {MongoClient} = require('mongodb');
+
+// Main Function
+async function main() {
+    const user = "adnguyen527";
+    const pass = "ku7IxM1AuiwqrV9e";
+    const uri = "mongodb+srv://"+user+":"+pass+"@studentdirectory.eil6uvt.mongodb.net/";
+    const firstName = process.argv[2];
+    const lastName = process.argv[3];
+    const client = new MongoClient(uri);
+    try {
+        await client.connect();
+    
+        await totalPages(client, String(firstName+" "+lastName));
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+}
+main().catch(console.error);
+
+async function totalPages(client, name) {
+    // Pipeline MongoDB
+    const pipeline = [
+        { $match: { "Student Name": name } },
+        { $project: { generalInfo: { $split: ["$General Information", ";"] } } },
+        { $unwind: "$generalInfo" },
+        { $match: { generalInfo: { $regex: "Pages Completed: .*" } } },
+        { $project: { pagesCompleted: {
+            $arrayElemAt: [ { $split: [ "$generalInfo", "Pages Completed: " ] }, 1 ]
+            } } },
+        { $match: { pagesCompleted: { $ne: "None" } } },
+        { $project: { pagesCompleted: { $toInt: "$pagesCompleted" } } },
+        { $group: {
+            _id: null,
+            totalPages: { $sum: "$pagesCompleted" } } }
+      ];
+
+      const db = client.db("StudentDirectory");
+      const coll = db.collection("dwp_reports");
+      
+      // Perform aggregation
+      const agg = coll.aggregate(pipeline);
+
+      // output doc output of aggregation
+      for await (const doc of agg) {
+          console.log(name+" "+doc.totalPages+" pages");
+        }
+    }

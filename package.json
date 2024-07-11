@@ -1,0 +1,14 @@
+{
+  "name": "studentdirectory",
+  "version": "1.0.0",
+  "description": "a database of all the student data collected",
+  "main": "connection.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node total_pages.js",
+    "pages": "node total_pages.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
