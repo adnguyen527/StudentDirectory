@@ -5,15 +5,17 @@ async function main() {
     const user = "adnguyen527";
     const pass = "ku7IxM1AuiwqrV9e";
     const uri = "mongodb+srv://"+user+":"+pass+"@studentdirectory.eil6uvt.mongodb.net/";
-    const firstName = process.argv[2];
-    const lastName = process.argv[3];
+    const args = process.argv;
+    const center = args[2]; // specific center or all
+    const firstName = args[3]; // first name
+    const lastName = args[4]; // last name
     const client = new MongoClient(uri);
     try {
         await client.connect();
     
         var name = firstName;
         if (lastName) name+=(" "+lastName);
-        await totalPages(client, String(name));
+        await totalPages(client, String(center), String(name));
     } catch (e) {
         console.error(e);
     } finally {
@@ -22,9 +24,12 @@ async function main() {
 }
 main().catch(console.error);
 
-async function totalPages(client, name) {
+async function totalPages(client, center, name) {
     // Pipeline MongoDB
     var pipeline = [];
+    if (center != "all") {
+        pipeline.push({ $match: { "Center": { $regex: center, $options: "i"} } });
+    }
     if (name != "all") {
         pipeline.push({ $match: { "Student Name": name } });
     }
