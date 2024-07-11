@@ -11,7 +11,9 @@ async function main() {
     try {
         await client.connect();
     
-        await totalPages(client, String(firstName+" "+lastName));
+        var name = firstName;
+        if (lastName) name+=(" "+lastName);
+        await totalPages(client, String(name));
     } catch (e) {
         console.error(e);
     } finally {
@@ -22,8 +24,11 @@ main().catch(console.error);
 
 async function totalPages(client, name) {
     // Pipeline MongoDB
-    const pipeline = [
-        { $match: { "Student Name": name } },
+    var pipeline = [];
+    if (name != "all") {
+        pipeline.push({ $match: { "Student Name": name } });
+    }
+    pipeline.push.apply(pipeline, [
         { $project: { generalInfo: { $split: ["$General Information", ";"] } } },
         { $unwind: "$generalInfo" },
         { $match: { generalInfo: { $regex: "Pages Completed: .*" } } },
@@ -35,7 +40,7 @@ async function totalPages(client, name) {
         { $group: {
             _id: null,
             totalPages: { $sum: "$pagesCompleted" } } }
-      ];
+      ]);
 
       const db = client.db("StudentDirectory");
       const coll = db.collection("dwp_reports");
