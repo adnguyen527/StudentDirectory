@@ -40,16 +40,16 @@ async function totalPages(client, name) {
         { $group: {
             _id: null,
             totalPages: { $sum: "$pagesCompleted" } } }
-      ]);
+    ]);
 
-      const db = client.db("StudentDirectory");
-      const coll = db.collection("dwp_reports");
-      
-      // Perform aggregation
-      const agg = coll.aggregate(pipeline);
+    const db = client.db("StudentDirectory");
+    const coll = db.collection("dwp_reports");
+    
+    // Perform aggregation
+    const agg = coll.aggregate(pipeline);
 
-      // output doc output of aggregation
-      for await (const doc of agg) {
-          console.log(name+" "+doc.totalPages+" pages");
+    // output doc output of aggregation
+    for await (const doc of agg) {
+        console.log(name+" "+doc.totalPages+" pages");
         }
     }
