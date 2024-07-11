@@ -13,7 +13,7 @@ async function main() {
     
         var name = firstName;
         if (lastName) name+=(" "+lastName);
-        await totalPages(client, String(name));
+        await totalMastery(client, String(name))
     } catch (e) {
         console.error(e);
     } finally {
@@ -22,34 +22,26 @@ async function main() {
 }
 main().catch(console.error);
 
-async function totalPages(client, name) {
-    // Pipeline MongoDB
+async function totalMastery(client, name) {
     var pipeline = [];
-    if (name != "all") {
-        pipeline.push({ $match: { "Student Name": name } });
+    if (name != 'all') {
+        pipeline.push({ $match: {"Student Name": name}});
     }
     pipeline.push.apply(pipeline, [
-        { $project: { generalInfo: { $split: ["$General Information", ";"] } } },
-        { $unwind: "$generalInfo" },
-        { $match: { generalInfo: { $regex: "Pages Completed: .*" } } },
-        { $project: { pagesCompleted: {
-            $arrayElemAt: [ { $split: [ "$generalInfo", "Pages Completed: " ] }, 1 ]
-            } } },
-        { $match: { pagesCompleted: { $ne: "None" } } },
-        { $project: { pagesCompleted: { $toInt: "$pagesCompleted" } } },
         { $group: {
             _id: null,
-            totalPages: { $sum: "$pagesCompleted" } } }
+            MasteredCount: { $sum: { $cond: [ {
+                $regexMatch: { input: "$LP Assignment", regex: "Mastered", options: "i" }
+            }, 1, 0 ] } }
+        }}
     ]);
 
     const db = client.db("StudentDirectory");
     const coll = db.collection("dwp_reports");
-    
-    // Perform aggregation
+
     const agg = coll.aggregate(pipeline);
 
-    // output doc output of aggregation
     for await (const doc of agg) {
-        console.log(name+"- "+doc.totalPages+" pages");
+        console.log(name+"- "+doc.MasteredCount+" mastery checks");
     }
 }
