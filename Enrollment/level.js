@@ -6,15 +6,12 @@ async function main() {
     const pass = "ku7IxM1AuiwqrV9e";
     const uri = "mongodb+srv://"+user+":"+pass+"@studentdirectory.eil6uvt.mongodb.net/";
     const args = process.argv;
-    const firstName = args[2]; // first name
-    const lastName = args[3]; // last name
+    const firstName = args[2];
+    const lastName = args[3];
     const client = new MongoClient(uri);
     try {
         await client.connect();
-        const db = client.db("StudentDirectory");
-        const coll = db.collection("dwp_reports");
-    
-        await currentLevel(coll, String(firstName), String(lastName));
+        await currentLevel(client.db("StudentDirectory"), String(firstName), String(lastName));
     } catch (e) {
         console.error(e);
     } finally {
@@ -23,14 +20,26 @@ async function main() {
 }
 main().catch(console.error);
 
-async function currentLevel(coll, firstName, lastName) {
-    var pipeline = [
-        { $match:{
-            "Student First Name": firstName, 
-            "Student Last Name": lastName
-        }}
-    ];
+async function currentLevel(db, firstName, lastName) {
+    const coll = db.collection("enrollment_reports");
 
-    const agg = coll.aggregate(pipeline);
-    console.log(JSON.stringify(agg));
+    let query = {
+        "Student First Name": firstName, 
+        "Student Last Name": lastName
+    };
+    const cursor = coll.find(query);
+    for await (const doc of cursor) {
+        console.log(`${firstName} ${lastName} - ${doc["Student Length of Stay"]}`);
+
+        // calc current level
+        let months = parseFloat(doc["Student Length of Stay"].split(' ')[0]);
+        console.log(`Level ${(function() {
+            var level = 1;
+            if (months >= 4) level = 2;
+            if (months >= 10) level += Math.floor((months-4)/6);
+            return level;
+        })(months)}`);
+    }
+
+    await cursor.close();
 }

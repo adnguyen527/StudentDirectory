@@ -6,7 +6,9 @@ a database of all the student data collected
 
 - [x] total pages (all students and each student)
 - [x] mastery checks
-- [ ] choose center (or all))
+- [x] choose center (or all)
+- [x] current level for a student
+- [ ] script to update all enrolled students with their current level
 
 **BUGS:**
 
