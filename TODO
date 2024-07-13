@@ -1,0 +1,18 @@
+Todo:
+    Overall:
+        
+    Enrollment:
+        ✔ current level for a student
+        ☐ script to update all enrolled students with their current level and add it to the document
+        ☐ Try to make a script that takes .xlsx file and imports all the data into the database
+    Student Reports:
+        ☐ check how long ago was last assessment
+        ☐ check how long since last update
+
+Fixme:
+    ☐ FIX: if a student has more than two names, CLI issue arguments
+
+Archive:
+    ✔ total pages (all students and each student)
+    ✔ mastery checks
+    ✔ choose center (or all)
