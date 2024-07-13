@@ -5,10 +5,10 @@ TODO:
                 ☐ initially populate all collections @high
                 ☐ make script that can update database collections with .xlsx file @critical
                 ☐ add/update new documents @high
-            ☐ admin - create collection for general information @critical
+            ✔ control - create collection for general information @critical
                 ☐ store date last updated for each report @critical
             ☐ user auth? @low
-                ☐ admin - user collection @low
+                ✔ control - user collection @low
         Enrollment:
             ✔ current level for a student
             ☐ script to update all enrolled students with their current level and add it to the document @high
@@ -39,9 +39,11 @@ TODO:
             ☐ choose center/all @high
             ☐ phantom/short attendances @low
         Birthdays:
-            ☐ create a birthday collection @critical
-            ☐ initially run every student's birthday and add/update @critical
-            ☐ when running enrollment report, add new enrolled name if their bd doesn't exist and notify user that birthday does not exist in mongo @low
+            ✔ create a birthday collection @critical
+                ☐ initially run every student's birthday and add/update @critical
+                ☐ create new birthday object - name, birthday, age
+                ☐ calculate age @low
+                ☐ when running enrollment report, add new enrolled name if their bd doesn't exist and notify user that birthday does not exist in mongo @low
             ☐ choose center/all @high
     *FRONTEND*:
         Overall:
