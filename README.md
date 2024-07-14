@@ -2,4 +2,12 @@
 
 a database of all the student data collected
 
-React or Angular
+MERN tech stack (javascript based)
+
+Mongo
+
+Express
+
+React
+
+Node
