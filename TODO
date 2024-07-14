@@ -2,13 +2,17 @@ TODO:
     *BACKEND DATABASE*:
         Overall:
             ☐ start tracking June 1, 2024 @critical
-                ☐ initially populate all collections @high
-                ☐ make script that can update database collections with .xlsx file @critical
-                ☐ add/update new documents @high
+                ☐ initially populate all collections @critical
+                ☐ make script that can update *ALL* database collections with .xlsx files @critical
+                ☐ add/update new documents @critical
             ✔ control - create collection for general information @critical
                 ☐ store date last updated for each report @critical
-            ☐ user auth? @low
+                ☐ user auth? @low
                 ✔ control - user collection @low
+        Students:
+            ☐ create new student info collection with only relevant information @critical
+                ☐ uid, name, center, grade, enrollment status, age/dob
+                ☐ attendance
         Enrollment:
             ✔ current level for a student
             ☐ script to update all enrolled students with their current level and add it to the document @high
@@ -41,7 +45,7 @@ TODO:
         Birthdays:
             ✔ create a birthday collection @critical
                 ☐ initially run every student's birthday and add/update @critical
-                ☐ create new birthday object - name, birthday, age
+                ☐ create new birthday object - name, birthday, age, center
                 ☐ calculate age @low
                 ☐ when running enrollment report, add new enrolled name if their bd doesn't exist and notify user that birthday does not exist in mongo @low
             ☐ choose center/all @high
