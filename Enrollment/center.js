@@ -1,10 +1,8 @@
 import { filterCenter } from "../scripts/filterCenter.js";
 import {MongoClient} from "mongodb";
+import {uri} from '../mongo_url.js';
 
 async function main() {
-    const user = "adnguyen527";
-    const pass = "ku7IxM1AuiwqrV9e";
-    const uri = `mongodb+srv://${user}:${pass}@studentdirectory.eil6uvt.mongodb.net/`;
     var center = ((process.argv[2]) ? process.argv[2] : "Southlake");
     const client = new MongoClient(uri);
     try {

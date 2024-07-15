@@ -1,10 +1,8 @@
 import {MongoClient} from "mongodb";
+import {uri} from '../mongo_url.js';
 
 // Main Function
 async function main() {
-    const user = "adnguyen527";
-    const pass = "ku7IxM1AuiwqrV9e";
-    const uri = "mongodb+srv://"+user+":"+pass+"@studentdirectory.eil6uvt.mongodb.net/";
     const args = process.argv;
     const center = args[2]; // specific center or all
     const firstName = args[3]; // first name
