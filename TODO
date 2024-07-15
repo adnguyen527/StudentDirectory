@@ -7,11 +7,12 @@ TODO:
                     ✔ script that imports data to specific collections
                     ✔ script that imports data to all collections
                     ☐ change so that it updates existing data based off the uid or adds new ones if doesn't exist @critical
-                    ☐ script that deletes all imported report data @high
+                    ✔ script that deletes all imported report data @high
             ✔ control - create collection for general information @critical
                 ☐ store date last updated for each report @critical
                 ☐ user auth? @low
                 ✔ control - user collection @low
+            ☐ move connection info mongodb to a different file for all scripts @low
         Students:
             ☐ create new student info collection with only relevant information @critical
                 ☐ uid, name, center, grade, enrollment status, age/dob
