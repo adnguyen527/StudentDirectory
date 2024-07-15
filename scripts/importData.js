@@ -2,13 +2,7 @@ import xlsx from 'xlsx';
 import path from 'path';
 import fs from 'fs';
 import {MongoClient} from 'mongodb';
-
-const args = process.argv;
-
-// connection
-const user = "adnguyen527";
-const pass = "ku7IxM1AuiwqrV9e";
-const uri = `mongodb+srv://${user}:${pass}@studentdirectory.eil6uvt.mongodb.net/`;
+import {uri} from '../mongo_url.js';
 
 const dbName = "StudentDirectory";
 
