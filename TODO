@@ -12,7 +12,7 @@ TODO:
                 ☐ store date last updated for each report @critical
                 ☐ user auth? @low
                 ✔ control - user collection @low
-            ☐ move connection info mongodb to a different file for all scripts @low
+            ✔ move connection info mongodb to a different file for all scripts @low
         Students:
             ☐ create new student info collection with only relevant information @critical
                 ☐ uid, name, center, grade, enrollment status, age/dob
