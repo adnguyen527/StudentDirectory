@@ -1,4 +1,6 @@
 import xlsx from 'xlsx';
+import path from 'path';
+import fs from 'fs';
 import {MongoClient} from 'mongodb';
 
 const args = process.argv;
@@ -9,20 +11,6 @@ const pass = "ku7IxM1AuiwqrV9e";
 const uri = `mongodb+srv://${user}:${pass}@studentdirectory.eil6uvt.mongodb.net/`;
 
 const dbName = "StudentDirectory";
-const collName = ((args[2]) ? args[2] : "");
-
-// read excel file
-var excelFilePath = "";
-try {
-    excelFilePath = ((args[3]) ? args[3] : _throw("no excel file specified"));
-} catch (e) {
-    console.error(e);
-}
-const workbook = xlsx.readFile(excelFilePath);
-const sheet = workbook.Sheets[workbook.SheetNames[0]];
-
-// convert to JSON
-const data = xlsx.utils.sheet_to_json(sheet);
 
 async function importData() {
     const client = new MongoClient(uri);
@@ -31,18 +19,60 @@ async function importData() {
         await client.connect();
 
         const db = client.db(dbName);
-        const coll = db.collection(collName);
+        await updateDocuments(db, "attendance_reports");
+        await updateDocuments(db, "dwp_reports");
+        await updateDocuments(db, "enrollment_reports");
+        await updateDocuments(db, "student_reports");
 
-        // insert data into collection
-        const result = await coll.insertMany(data);
-        console.log(`${result.insertedCount} documents inserted.`);
     } catch (error) {
         console.error(error);
     } finally {
         await client.close();
     }
 }
-
 importData();
 
-function _throw(m) {throw m;}
+async function updateDocuments(db, collName) {
+    const coll = db.collection(collName);
+
+    const excelFilePath = await findFilePath(collName);
+    console.log(`${excelFilePath} --> ${collName}`);
+
+    const workbook = await xlsx.readFile(excelFilePath);
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+
+    // convert to JSON
+    const data = await xlsx.utils.sheet_to_json(sheet);
+
+    // insert data into collection
+    const result = await coll.insertMany(data);
+    console.log(`${result.insertedCount} documents inserted.`);
+}
+
+async function findFilePath(collName) {
+    var prefix = "";
+    switch (collName) {
+        case ("attendance_reports"):
+            prefix = "Student Attendance";
+            break;
+        case ("dwp_reports"):
+            prefix = "Digital Workout";
+            break;
+        case ("enrollment_reports"):
+            prefix = "Enrolled Report";
+            break;
+        case ("student_reports"):
+            prefix = "Student Report";
+            break;
+    }
+
+    const directory = "../reports";
+    const files = fs.readdirSync(directory);
+    for (const file of files) {
+        if (file.startsWith(prefix) && file.endsWith('.xlsx')) {
+            return path.join(directory, file);
+        }
+    }
+
+    throw new Error(`No file found with prefix "${prefix}"`);
+}
