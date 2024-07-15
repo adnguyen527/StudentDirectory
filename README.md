@@ -12,4 +12,4 @@ React
 
 Node
 
-I like men!
+git submodule update --init --recursive

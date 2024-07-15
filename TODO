@@ -4,7 +4,10 @@ TODO:
             ☐ start tracking June 1, 2024 @critical
                 ☐ initially populate all collections @critical
                 ☐ make script that can update *ALL* database collections with .xlsx files @critical
-                ☐ add/update new documents @critical
+                    ✔ script that imports data to specific collections
+                    ✔ script that imports data to all collections
+                    ☐ change so that it updates existing data based off the uid or adds new ones if doesn't exist @critical
+                    ☐ script that deletes all imported report data @high
             ✔ control - create collection for general information @critical
                 ☐ store date last updated for each report @critical
                 ☐ user auth? @low
@@ -13,11 +16,11 @@ TODO:
             ☐ create new student info collection with only relevant information @critical
                 ☐ uid, name, center, grade, enrollment status, age/dob
                 ☐ attendance
-        Enrollment:
+        Enrollment Reports:
             ✔ current level for a student
             ☐ script to update all enrolled students with their current level and add it to the document @high
             ☐ membership type @low
-        Digital Workout Plan:
+        Digital Workout Plan Reports:
             ✔ total pages (all students and each student) @high
             ✔ mastery checks @high
             ✔ choose center/all @high
@@ -36,7 +39,7 @@ TODO:
             ☐ choose center/all @high
             ☐ which students need a reload @critical
             ☐ last attendance @low
-        Attendance:
+        Attendance Reports:
             ☐ # of visits for students/all that month @critical
             ☐ only students over 10 visits @high
             ☐ total attendance per day at center @high
