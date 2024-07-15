@@ -66,7 +66,7 @@ async function findFilePath(collName) {
             break;
     }
 
-    const directory = "../reports";
+    const directory = "../report-data/reports";
     const files = fs.readdirSync(directory);
     for (const file of files) {
         if (file.startsWith(prefix) && file.endsWith('.xlsx')) {
