@@ -16,10 +16,15 @@ TODO:
             ☐ export excel files to print @critical
         Students:
             ☐ create new student info collection with only relevant information @critical
-                ☐ uid, name, center, grade, enrollment status, age/dob
-                ☐ attendance
-                ☐ grade 
-                    ☐ school year
+                ✔ Student class
+                    ☐ initial populate Student collection with docs based off of class objects @critical
+                        ☐ script that builds the objects and insert/update collection Student @critical
+                ✔ uid, name, center, grade, enrollment status, age/dob
+                ✔ attendance
+                    ☐ method to add new attendances to list of existing @high
+                    ☐ check for repeated attendances and only add unique ones
+                ✔ grade 
+                    ✔ school year
                     ☐ script to update all for a school year
         Enrollment Reports:
             ✔ current level for a student
@@ -45,7 +50,10 @@ TODO:
             ☐ which students need a reload @critical
             ☐ last attendance @low
         Attendance Reports:
+            ☐ track when the collection was populated
+            ☐ script to map all attendances to add to student docs
             ☐ # of visits for students/all that month @critical
+            ✔ Attendance class to be stored in Student class
             ☐ only students over 10 visits @high
             ☐ total attendance per day at center @high
             ☐ choose center/all @high
