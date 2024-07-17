@@ -65,6 +65,12 @@ TODO:
                 ☐ calculate age @low
                 ☐ when running enrollment report, add new enrolled name if their bd doesn't exist and notify user that birthday does not exist in mongo @low
             ☐ choose center/all @high
+        Instructors:
+            ☐ Instructor class object
+                ☐ name, dates worked, pages checked, MCs
+            ☐ method - counts how many pages checked
+            ☐ method - counts MCs signed off
+            ☐ method - list all dates worked
     *FRONTEND*:
         Overall:
             ☐ home dashboard page @critical
