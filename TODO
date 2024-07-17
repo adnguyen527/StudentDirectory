@@ -35,12 +35,6 @@ TODO:
             ✔ mastery checks @high
             ✔ choose center/all @high
             ☐ track topics worked on /complete including date @low
-            ☐ Instructor stats @high
-                ☐ days worked @high
-                ☐ pages checked @low
-                ☐ MCs checked @low
-                ☐ center @low
-                ☐ average pages/MCs per day @low
         Student Reports:
             ☐ check how long ago was last assessment @high
             ☐ check how long since last update @low
@@ -54,6 +48,7 @@ TODO:
             ☐ script to map all attendances to add to student docs
             ☐ # of visits for students/all that month @critical
             ✔ Attendance class to be stored in Student class
+                ☐ combine with DWP reports for all the objects
             ☐ only students over 10 visits @high
             ☐ total attendance per day at center @high
             ☐ choose center/all @high
@@ -66,8 +61,10 @@ TODO:
                 ☐ when running enrollment report, add new enrolled name if their bd doesn't exist and notify user that birthday does not exist in mongo @low
             ☐ choose center/all @high
         Instructors:
-            ☐ Instructor class object
-                ☐ name, dates worked, pages checked, MCs
+            ✔ Instructor class object
+                ✔ name, dates worked, pages checked, MCs
+            ☐ all DWPs
+            ☐ center
             ☐ method - counts how many pages checked
             ☐ method - counts MCs signed off
             ☐ method - list all dates worked
@@ -108,5 +105,6 @@ TODO:
             ☐ sort by center @critical
     FIXME:
         ☐ if a student has more than two names, CLI issue arguments @low
+        ☐ change js queries to Mongo aggregations instead for that beautiful c++ speed @high
     
     Archive:
