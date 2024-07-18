@@ -8,10 +8,10 @@ async function main() {
         await client.connect();
         const coll = client.db("StudentDirectory").collection("dwp_reports");
 
-        const instructor = new Instructor("Megan Tidwell");
+        const instructor = new Instructor("Samantha Somerstein");
         const query = {"Session": {"$regex": `Instructors:[^;]*${instructor.name}`}};
         const cursor = await coll.find(query);
-        console.log(await cursor.toArray());
+        // console.log(await cursor.toArray());
         for await (const doc of cursor) {
             console.log(doc["Date"]);
         }
