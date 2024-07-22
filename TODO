@@ -18,7 +18,9 @@ TODO:
             ☐ create new student info collection with only relevant information @critical
                 ✔ Student class
                     ☐ initial populate Student collection with docs based off of class objects @critical
-                        ☐ script that builds the objects and insert/update collection Student @critical
+                        ✔ script that scans reports and insert/update collection Student @critical
+                        ☐ methods to add/updated relevant data into student object @critical
+                        ☐ delete and import all of new student objects into collection
                 ✔ uid, name, center, grade, enrollment status, age/dob
                 ✔ attendance
                     ☐ method to add new attendances to list of existing @high
@@ -57,6 +59,7 @@ TODO:
             ✔ create a birthday collection @critical
                 ☐ initially run every student's birthday and add/update @critical
                 ☐ create new birthday object - name, birthday, age, center
+                ☐ add a separate import birthday method that looks through all birthday docs and assigns them to the correct student
                 ☐ calculate age @low
                 ☐ when running enrollment report, add new enrolled name if their bd doesn't exist and notify user that birthday does not exist in mongo @low
             ☐ choose center/all @high
