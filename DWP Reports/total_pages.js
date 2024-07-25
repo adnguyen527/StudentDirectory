@@ -13,7 +13,7 @@ async function main() {
     
         var name = firstName;
         if (lastName) name+=(" "+lastName);
-        await totalPages(client, String(center), String(name));
+        console.log(`${name} - ${await totalPages(client, String(center), String(name))} pages`);
     } catch (e) {
         console.error(e);
     } finally {
@@ -53,6 +53,6 @@ async function totalPages(client, center, name) {
 
     // output doc output of aggregation
     for await (const doc of agg) {
-        console.log(name+"- "+doc.totalPages+" pages");
+        return doc.totalPages;
     }
 }
