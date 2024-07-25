@@ -80,8 +80,14 @@ async function main() {
 }
 main().catch(console.error);
 
+// create new student item for collection
 async function addDocument(accountId) {
+    // create new student object
+    const student = new Student(accountId);
+    
+    // populate student relevant data
 
+    // add object to student collection
 }
 
 async function updateDocument(accountId) {
