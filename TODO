@@ -59,9 +59,9 @@ TODO:
         Birthdays:
             ✔ create a birthday collection @critical
                 ☐ initially run every student's birthday and add/update @critical
-                ☐ create new birthday object - name, birthday, age, center
+                ✔ create new birthday object - name, birthday, age, center
                 ☐ add a separate import birthday method that looks through all birthday docs and assigns them to the correct student
-                ☐ calculate age @low
+                ✔ calculate age @low
                 ☐ when running enrollment report, add new enrolled name if their bd doesn't exist and notify user that birthday does not exist in mongo @low
             ☐ choose center/all @high
         Instructors:
