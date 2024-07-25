@@ -33,21 +33,22 @@ TODO:
             ☐ script to update all enrolled students with their current level and add it to the document @high
             ☐ membership type @low
         Digital Workout Plan Reports:
-            ✔ total pages (all students and each student) @high
-            ✔ mastery checks @high
-            ✔ choose center/all @high
-            ☐ track topics worked on /complete including date @low
+            ✔ import DWP info into DigitalWorkoutPlan class object
+                ✔ track topics worked on /complete including date @low
+            ☐ rework total pages of specific students to pull from dwp on student collection @high
+            ☐ rework mastery checks of students to pull from dwp on student collection @high
+            ☐ merge DWP with attendance object, somehow
         Student Reports:
-            ☐ check how long ago was last assessment @high
-            ☐ check how long since last update @low
+            ✔ check how long ago was last assessment @high
+            ✔ check how long since last update @low
             ☐ add last reload date to document @high
                 ☐ check which students haven't been reloaded *today* @high
             ☐ choose center/all @high
             ☐ which students need a reload @critical
-            ☐ last attendance @low
+            ✔ last attendance @low
         Attendance Reports:
             ☐ track when the collection was populated
-            ☐ script to map all attendances to add to student docs
+            ✔ script to map all attendances to add to student docs @critical
             ☐ # of visits for students/all that month @critical
             ✔ Attendance class to be stored in Student class
                 ☐ combine with DWP reports for all the objects
@@ -86,6 +87,7 @@ TODO:
             ☐ age/DOB @low
             ☐ last attendance @low
             ☐ student length of stay and current level - *as of last update* @high
+            ☐ button that changes the reload date to TODAY, with date next to it displayed
             ☐ when last reloaded - need to add reload date first @high
             ☐ pages/MCs completed @high
                 ☐ bonus points for a specified timeframe @low
@@ -107,7 +109,12 @@ TODO:
             ☐ weekly and monthly stats @low
             ☐ sort by center @critical
     FIXME:
-        ☐ if a student has more than two names, CLI issue arguments @low
+        ☐ if a student has more than two names @low
         ☐ change js queries to Mongo aggregations instead for that beautiful c++ speed @high
+        ☐ Siblings are under the same account id @high
     
-    Archive:
+    *ARCHIVE*:
+        Digital Workout Plan Reports:
+            ✔ total pages (all students and each student) @high
+            ✔ mastery checks @high
+            ✔ choose center/all @high

@@ -7,12 +7,11 @@ async function main() {
     try {
         await client.connect();
         const coll = client.db("StudentDirectory").collection("dwp_reports");
-        const doc = await coll.findOne({"Student Name": "Teddy Nguyen"});
+        const doc = await coll.findOne({ "Student Name": "Teddy Nguyen" });
 
-        const dwop = new DigitalWorkoutPlan(doc["Account Id"]);
-        dwop.importDWP(doc);
+        const dwop = new DigitalWorkoutPlan();
+        dwop.importReport(doc);
         console.log(dwop);
-
     } catch (error) {
         console.log(error);
     } finally {

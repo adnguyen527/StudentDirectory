@@ -1,10 +1,10 @@
 import { UUID } from "mongodb";
 
 export default class DigitalWorkoutPlan {
-    constructor(accountId) {
+    constructor() {
         this.uuid = new UUID();
-        this.accountId = accountId;
         this.studentName = "";
+        this.date = "";
         this.start = "";
         this.end = "";
         this.instructors = [];
@@ -15,8 +15,10 @@ export default class DigitalWorkoutPlan {
         this.assessment = "";
     }
 
-    importDWP(dwp_report) {
+    // import relevant DWP data
+    importReport(dwp_report) {
         this.studentName = dwp_report["Student Name"];
+        this.date = dwp_report["Date"];
         this.start = getStartTime(dwp_report);
         this.end = getEndTime(dwp_report);
         this.instructors = getInstructors(dwp_report);
@@ -33,21 +35,28 @@ export default class DigitalWorkoutPlan {
             return dwp_report["Session"].split(";  ")[2].split(": ")[1];
         }
         function getInstructors(dwp_report) {
-            return dwp_report["Session"].split(";  ")[3].split(": ")[1].split(", ");
+            return dwp_report["Session"]
+                .split(";  ")[3]
+                .split(": ")[1]
+                .split(", ");
         }
         function getPagesCompleted(dwp_report) {
-            return parseInt(dwp_report["General Information"].split(";  ")[1].split(": ")[1]);
+            const pages = dwp_report["General Information"]
+                .split(";  ")[1]
+                .split(": ")[1];
+            if (pages == "None") return 0;
+            return parseInt(pages);
         }
         function getTopics(dwp_report) {
             return dwp_report["LP Assignment"].split(";  ");
         }
         function getSessionNote(dwp_report) {
             const note = dwp_report["Notes for this Session"];
-            return (note ? note : "");
+            return note ? note : "";
         }
         function getCenterNote(dwp_report) {
             const note = dwp_report["Notes from Center Director"];
-            return (note ? note : "");
+            return note ? note : "";
         }
     }
 }
