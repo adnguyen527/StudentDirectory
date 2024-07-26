@@ -3,10 +3,11 @@ import DigitalWorkoutPlan from "../DWP Reports/DigitalWorkoutPlan.js";
 import Attendance from "../Attendance Reports/Attendance.js";
 
 export default class Student {
-    constructor(accountId, studentName) {
+    constructor(accountId, firstName, lastName) {
         this.uid = new UUID();
         this.accountId = accountId;
-        this.studentName = studentName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.center = "";
         this.grade = "";
         this.schoolYear = "24-25";
@@ -17,6 +18,7 @@ export default class Student {
         this.lastLPUpdate = "";
         this.attendanceRecords = [];
         this.dwpReports = [];
+        this.lastModified = new Date();
     }
 
     // set relevant enrollment data

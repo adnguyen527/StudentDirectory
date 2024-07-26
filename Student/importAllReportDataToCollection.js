@@ -9,55 +9,150 @@ async function importAllStudentDataToCollection() {
         const db = client.db("StudentDirectory");
         const studentMaster = db.collection("students");
 
-        // access every report collection
+        // access student report collection
+        const coll_student_reports = await db.collection("student_reports");
         const coll_attendance = db.collection("attendance_reports");
         const coll_dwp = db.collection("dwp_reports");
         const coll_enrollment = db.collection("enrollment_reports");
-        const coll_student_reports = db.collection("student_reports");
 
         // iterate through student reports and import each report into respective student
         var insertCount = 0;
         var updateCount = 0;
-        for (const doc of coll_student_reports) {
-            const studentName = doc["Student Name"];
+        for await (const doc of await coll_enrollment.find().toArray()) {
+            const firstName = doc["Student First Name"];
+            const lastName = doc["Student Last Name"];
             const accountId = doc["Account Id"];
-            const student = new Student(accountId, studentName);
-            if (!studentExists(accountId, studentName)) {
+            if (
+                !(await studentExists(
+                    studentMaster,
+                    accountId,
+                    firstName,
+                    lastName
+                ))
+            ) {
                 // new student
                 insertCount++;
+                await addStudent(accountId, firstName, lastName);
             } else {
                 // update existing student
                 updateCount++;
+                await updateStudent(accountId, firstName, lastName);
             }
         }
-    } catch (error) {
-        console.log(error);
-    } finally {
-        await client.close();
-    }
 
-    // check if student already exists in Student collection by student name and accountId
-    async function studentExists(accountId, studentName) {
-        const pipeline = [
-            {
-                $match: {
-                    studentName: studentName,
+        console.log(`${insertCount} students inserted.`);
+        console.log(`${updateCount} students updated.`);
+
+        // HELPER FUNCTIONS
+
+        async function updateStudent(accountId, firstName, lastName) {
+            const student = new Student(accountId, firstName, lastName);
+            await importReports(student);
+            await studentMaster.updateOne(
+                {
                     accountId: accountId,
+                    firstName: firstName,
+                    lastName: lastName,
                 },
-            },
-            {
-                $count: "count",
-            },
-            {
-                $project: {
-                    exists: {
-                        $gt: ["$count", 0],
+                {
+                    $set: {
+                        center: student.center,
+                        grade: student.grade,
+                        schoolYear: student.schoolYear,
+                        enrollmentStatus: student.enrollmentStatus,
+                        birthday: student.birthday,
+                        lastAttendance: student.lastAttendance,
+                        lastAssessment: student.lastAssessment,
+                        lastLPUpdate: student.lastLPUpdate,
+                        attendanceRecords: student.attendanceRecords,
+                        dwpReports: student.dwpReports,
+                        lastModified: student.lastModified,
+                    },
+                }
+            );
+            console.log(`${firstName}_${lastName} has been updated.`);
+        }
+
+        async function addStudent(accountId, firstName, lastName) {
+            const student = new Student(accountId, firstName, lastName);
+            console.log(`${firstName}_${lastName} is being added.`);
+            await importReports(student);
+            await studentMaster.insertOne(student);
+        }
+
+        async function importReports(student) {
+            const studentName = student.firstName + " " + student.lastName;
+            // student report
+            var query = {
+                "Account Id": student.accountId,
+                "Student Name": studentName,
+            };
+            const student_report = await coll_student_reports.findOne(query);
+            await student.importStudentReport(student_report);
+
+            // attendance report
+            query = {
+                "Account Id": student.accountId,
+                "First Name": student.firstName,
+                "Last Name": student.lastName,
+            };
+            const attendance_reports = await coll_attendance
+                .find(query)
+                .toArray();
+            await student.addAttendances(attendance_reports);
+
+            // dwp report
+            query = {
+                "Account Id": student.accountId,
+                "Student Name": studentName,
+            };
+            const dwp_reports = await coll_dwp.find(query).toArray();
+            await student.addDWPReports(dwp_reports);
+
+            // enrollment report
+            query = {
+                "Account Id": student.accountId,
+                "Student First Name": student.firstName,
+                "Student Last Name": student.lastName,
+            };
+            const enrollment_report = await coll_enrollment.findOne(query);
+            await student.importEnrollmentReport(enrollment_report);
+        }
+
+        // check if student already exists in Student collection by student name and accountId
+        async function studentExists(
+            studentMaster,
+            accountId,
+            firstName,
+            lastName
+        ) {
+            const pipeline = [
+                {
+                    $match: {
+                        firstName: firstName,
+                        lastName: lastName,
+                        accountId: accountId,
                     },
                 },
-            },
-        ];
-        const result = await studentMaster.aggregate(pipeline).toArray();
-        return result["exists"];
+                {
+                    $count: "count",
+                },
+                {
+                    $project: {
+                        exists: {
+                            $gt: ["$count", 0],
+                        },
+                    },
+                },
+            ];
+            const result = await studentMaster.aggregate(pipeline).toArray();
+            // console.log(firstName + " " + lastName + " " + (result[0] ? true : false));
+            return result[0] ? true : false;
+        }
+    } catch (error) {
+        console.error(error);
+    } finally {
+        await client.close();
     }
 }
 importAllStudentDataToCollection();
