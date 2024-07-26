@@ -4,6 +4,7 @@ export default class DigitalWorkoutPlan {
     constructor() {
         this.uuid = new UUID();
         this.studentName = "";
+        this.finalizedDate = "";
         this.date = "";
         this.start = "";
         this.end = "";
@@ -18,6 +19,7 @@ export default class DigitalWorkoutPlan {
     // import relevant DWP data
     importReport(dwp_report) {
         this.studentName = dwp_report["Student Name"];
+        this.finalizedDate = dwp_report["Finalized Date"];
         this.date = dwp_report["Date"];
         this.start = getStartTime(dwp_report);
         this.end = getEndTime(dwp_report);

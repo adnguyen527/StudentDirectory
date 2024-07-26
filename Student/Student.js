@@ -3,9 +3,9 @@ import DigitalWorkoutPlan from "../DWP Reports/DigitalWorkoutPlan.js";
 import Attendance from "../Attendance Reports/Attendance.js";
 
 export default class Student {
-    constructor(studentName) {
+    constructor(accountId, studentName) {
         this.uid = new UUID();
-        this.accountId = "";
+        this.accountId = accountId;
         this.studentName = studentName;
         this.center = "";
         this.grade = "";
@@ -28,7 +28,6 @@ export default class Student {
 
     // set relevant student report data
     importStudentReport(student_report) {
-        this.accountId = student_report["Account Id"];
         this.lastAttendance = student_report["Last Attendance"];
         this.lastAssessment = student_report["Last Assessment"];
         this.lastLPUpdate = student_report["Last LP Update"];
@@ -53,12 +52,12 @@ export default class Student {
     }
 
     // format: 24-25
-    static setSchoolear(schoolYear) {
+    setSchoolYear(schoolYear) {
         this.schoolYear = schoolYear;
     }
 
     // format: mm/dd/yyyy
-    static setBirthday(birthday) {
+    setBirthday(birthday) {
         this.birthday = birthday;
     }
 }
