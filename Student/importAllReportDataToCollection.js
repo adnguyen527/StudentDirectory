@@ -2,6 +2,8 @@ import { MongoClient } from "mongodb";
 import { uri } from "../mongo_url.js";
 import Student from "./Student.js";
 
+const ignore_memberships = ["* ISEE Boot Camp (Private Sessions Package)"];
+
 async function importAllStudentDataToCollection() {
     const client = new MongoClient(uri);
     try {
@@ -15,28 +17,30 @@ async function importAllStudentDataToCollection() {
         const coll_dwp = db.collection("dwp_reports");
         const coll_enrollment = db.collection("enrollment_reports");
 
-        // iterate through student reports and import each report into respective student
+        // iterate through enrollment reports and import each report into respective student or create new
         var insertCount = 0;
         var updateCount = 0;
         for await (const doc of await coll_enrollment.find().toArray()) {
-            const firstName = doc["Student First Name"];
-            const lastName = doc["Student Last Name"];
-            const accountId = doc["Account Id"];
-            if (
-                !(await studentExists(
-                    studentMaster,
-                    accountId,
-                    firstName,
-                    lastName
-                ))
-            ) {
-                // new student
-                insertCount++;
-                await addStudent(accountId, firstName, lastName);
-            } else {
-                // update existing student
-                updateCount++;
-                await updateStudent(accountId, firstName, lastName);
+            if (!ignore_memberships.includes(doc["Membership Type"])) {
+                const firstName = doc["Student First Name"];
+                const lastName = doc["Student Last Name"];
+                const accountId = doc["Account Id"];
+                if (
+                    !(await studentExists(
+                        studentMaster,
+                        accountId,
+                        firstName,
+                        lastName
+                    ))
+                ) {
+                    // new student
+                    insertCount++;
+                    await addStudent(accountId, firstName, lastName);
+                } else {
+                    // update existing student
+                    updateCount++;
+                    await updateStudent(accountId, firstName, lastName);
+                }
             }
         }
 
@@ -47,6 +51,7 @@ async function importAllStudentDataToCollection() {
 
         async function updateStudent(accountId, firstName, lastName) {
             const student = new Student(accountId, firstName, lastName);
+            console.log(`${firstName}_${lastName} is being updated.`);
             await importReports(student);
             await studentMaster.updateOne(
                 {
@@ -70,7 +75,6 @@ async function importAllStudentDataToCollection() {
                     },
                 }
             );
-            console.log(`${firstName}_${lastName} has been updated.`);
         }
 
         async function addStudent(accountId, firstName, lastName) {
@@ -88,7 +92,9 @@ async function importAllStudentDataToCollection() {
                 "Student Name": studentName,
             };
             const student_report = await coll_student_reports.findOne(query);
-            await student.importStudentReport(student_report);
+            if (student_report) {
+                await student.importStudentReport(student_report);
+            }
 
             // attendance report
             query = {

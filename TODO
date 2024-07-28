@@ -19,8 +19,7 @@ TODO:
                 ✔ Student class
                     ☐ initial populate Student collection with docs based off of class objects @critical
                         ✔ script that scans reports and insert/update collection Student @critical
-                        ☐ methods to add/updated relevant data into student object @critical
-                        ☐ delete and import all of new student objects into collection
+                        ✔ methods to add/updated relevant data into student object @critical
                 ✔ uid, name, center, grade, enrollment status, age/dob
                 ✔ attendance
                     ☐ method to add new attendances to list of existing @high
@@ -108,10 +107,19 @@ TODO:
             ☐ Graphs? that track daily attendance @high
             ☐ weekly and monthly stats @low
             ☐ sort by center @critical
-    FIXME:
+        Import Reports Page:
+            ☐ upload xlsx files
+            ☐ automatically import that data into student master
+            ☐ do it for each report file separately to save time
+            ☐ update or create new student for each report file individually
+    *FIXME*:
         ☐ if a student has more than two names @low
         ☐ change js queries to Mongo aggregations instead for that beautiful c++ speed @high
         ☐ Siblings are under the same account id @high
+        ☐ investigate why some students have enrollment report but not student reports
+        ☐ "* ISEE Boot Camp (Private Sessions Package)" double enrollment reports
+            ☐ maybe have an ignore list for enrollment reports when iterating through initially
+            ☐ include extra memberships in another field of student??
     
     *ARCHIVE*:
         Digital Workout Plan Reports:
