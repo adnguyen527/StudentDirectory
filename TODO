@@ -15,21 +15,22 @@ TODO:
             ✔ move connection info mongodb to a different file for all scripts @low
             ☐ export excel files to print @critical
         Students:
-            ☐ create new student info collection with only relevant information @critical
+            ✔ create new student info collection with only relevant information @critical
                 ✔ Student class
-                    ☐ initial populate Student collection with docs based off of class objects @critical
+                    ✔ initial populate Student collection with docs based off of class objects @critical
                         ✔ script that scans reports and insert/update collection Student @critical
                         ✔ methods to add/updated relevant data into student object @critical
+                        ☐ when updating reports from xlsx file, skip the reports that have no changes to them to save time @critical
                 ✔ uid, name, center, grade, enrollment status, age/dob
                 ✔ attendance
-                    ☐ method to add new attendances to list of existing @high
+                    ✔ method to add new attendances to list of existing @high
                     ☐ check for repeated attendances and only add unique ones
                 ✔ grade 
                     ✔ school year
-                    ☐ script to update all for a school year
+                    ☐ script to update all for a school year @low
         Enrollment Reports:
             ✔ current level for a student
-            ☐ script to update all enrolled students with their current level and add it to the document @high
+            ☐ script to update all enrolled students with their current level and add it to the student master @high
             ☐ membership type @low
         Digital Workout Plan Reports:
             ✔ import DWP info into DigitalWorkoutPlan class object

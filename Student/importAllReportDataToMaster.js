@@ -16,6 +16,7 @@ async function importAllStudentDataToCollection() {
         const coll_attendance = db.collection("attendance_reports");
         const coll_dwp = db.collection("dwp_reports");
         const coll_enrollment = db.collection("enrollment_reports");
+        const coll_birthday = db.collection("birthday_reports");
 
         // iterate through enrollment reports and import each report into respective student or create new
         var insertCount = 0;
@@ -123,6 +124,15 @@ async function importAllStudentDataToCollection() {
             };
             const enrollment_report = await coll_enrollment.findOne(query);
             await student.importEnrollmentReport(enrollment_report);
+
+            // birthday report
+            query = {
+                "Account Id": student.accountId,
+                "Student First Name": student.firstName,
+                "Last Name": student.lastName,
+            };
+            const birthday_report = await coll_birthday.findOne(query);
+            await student.importBirthdayReport(birthday_report);
         }
 
         // check if student already exists in Student collection by student name and accountId
