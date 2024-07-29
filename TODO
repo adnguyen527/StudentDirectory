@@ -53,17 +53,18 @@ TODO:
             ☐ # of visits for students/all that month @critical
             ✔ Attendance class to be stored in Student class
                 ☐ combine with DWP reports for all the objects
+                ☐ when linking DWP with attendances, be careful with some students with double attendances like Emilia Klausz for 2 hr sessions
             ☐ only students over 10 visits @high
             ☐ total attendance per day at center @high
             ☐ choose center/all @high
             ☐ phantom/short attendances @low
         Birthdays:
             ✔ create a birthday collection @critical
-                ☐ initially run every student's birthday and add/update @critical
+                ✔ initially run every student's birthday and add/update @critical
                 ✔ create new birthday object - name, birthday, age, center
-                ☐ add a separate import birthday method that looks through all birthday docs and assigns them to the correct student
+                ✔ add a separate import birthday method that looks through all birthday docs and assigns them to the correct student
                 ✔ calculate age @low
-                ☐ when running enrollment report, add new enrolled name if their bd doesn't exist and notify user that birthday does not exist in mongo @low
+                ✔ when running enrollment report, add new enrolled name if their bd doesn't exist and notify user that birthday does not exist in mongo @low
             ☐ choose center/all @high
         Instructors:
             ✔ Instructor class object

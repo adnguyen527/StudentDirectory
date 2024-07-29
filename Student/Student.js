@@ -12,6 +12,8 @@ export default class Student {
         this.grade = "";
         this.schoolYear = "24-25";
         this.enrollmentStatus = "";
+        this.stayLength = "";
+        this.level = 0;
         this.birthday = "";
         this.age = 0;
         this.lastAttendance = "";
@@ -27,6 +29,8 @@ export default class Student {
         this.center = enrollment_report["Center"]; // "Southlake"
         this.grade = enrollment_report["Grade"]; // 5 or PreK
         this.enrollmentStatus = enrollment_report["Status"]; // "Enrolled"
+        this.stayLength = enrollment_report["Enrollment Length of Stay"];
+        this.level = this.setLevel();
     }
 
     // set relevant student report data
@@ -68,28 +72,37 @@ export default class Student {
 
     setBirthday(birthday) {
         this.birthday = birthday;
-        this.age = getAge(birthday);
-    }
-}
-
-// get age based on birthday string
-function getAge(birthday) {
-    const [month, day, year] = birthday.split("/").map(Number);
-    const birthdate = new Date(year, month - 1, day);
-    const today = new Date();
-
-    // Calculate the age
-    let age = today.getFullYear() - birthdate.getFullYear();
-
-    // Check if the current date is before the birthday this year, and adjust the age if necessary
-    const currentMonth = today.getMonth();
-    const currentDate = today.getDate();
-    if (
-        currentMonth < month - 1 ||
-        (currentMonth === month - 1 && currentDate < day)
-    ) {
-        age--;
+        this.age = this.getAge();
     }
 
-    return age;
+    // get age based on birthday string
+    getAge() {
+        const [month, day, year] = this.birthday.split("/").map(Number);
+        const birthdate = new Date(year, month - 1, day);
+        const today = new Date();
+
+        // Calculate the age
+        let age = today.getFullYear() - birthdate.getFullYear();
+
+        // Check if the current date is before the birthday this year, and adjust the age if necessary
+        const currentMonth = today.getMonth();
+        const currentDate = today.getDate();
+        if (
+            currentMonth < month - 1 ||
+            (currentMonth === month - 1 && currentDate < day)
+        ) {
+            age--;
+        }
+
+        return age;
+    }
+
+    // calc and set current level
+    setLevel() {
+        let months = parseFloat(doc["Student Length of Stay"].split(" ")[0]);
+        var level = 1;
+        if (months >= 4) level = 2;
+        if (months >= 10) level += Math.floor((months - 4) / 6);
+        return level;
+    }
 }
