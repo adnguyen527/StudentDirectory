@@ -67,6 +67,7 @@ async function importAllStudentDataToCollection() {
                         schoolYear: student.schoolYear,
                         enrollmentStatus: student.enrollmentStatus,
                         birthday: student.birthday,
+                        age: student.age,
                         lastAttendance: student.lastAttendance,
                         lastAssessment: student.lastAssessment,
                         lastLPUpdate: student.lastLPUpdate,

@@ -1,8 +1,8 @@
-import xlsx from 'xlsx';
-import path from 'path';
-import fs from 'fs';
-import {MongoClient} from 'mongodb';
-import {uri} from '../mongo_url.js';
+import xlsx from "xlsx";
+import path from "path";
+import fs from "fs";
+import { MongoClient } from "mongodb";
+import { uri } from "../mongo_url.js";
 
 const dbName = "StudentDirectory";
 
@@ -17,7 +17,7 @@ async function importData() {
         await updateDocuments(db, "dwp_reports");
         await updateDocuments(db, "enrollment_reports");
         await updateDocuments(db, "student_reports");
-
+        await importBirthdayDocuments(db);
     } catch (error) {
         console.error(error);
     } finally {
@@ -43,27 +43,54 @@ async function updateDocuments(db, collName) {
     console.log(`${result.insertedCount} documents inserted.`);
 }
 
+async function importBirthdayDocuments(db) {
+    const coll = db.collection("birthday_reports");
+    const directory = "../report-data/reports/birthdays";
+    const files = fs.readdirSync(directory);
+
+    for (const file of files) {
+        if (
+            file.startsWith("Student Birthday Report") &&
+            file.endsWith(".xlsx")
+        ) {
+            const excelFilePath = path.join(directory, file);
+            console.log(`${excelFilePath} --> birthday_reports`);
+
+            const workbook = await xlsx.readFile(excelFilePath);
+            const sheet = workbook.Sheets[workbook.SheetNames[0]];
+
+            // convert to JSON
+            const data = await xlsx.utils.sheet_to_json(sheet);
+
+            // insert data into collection
+            const result = await coll.insertMany(data);
+            console.log(`${result.insertedCount} documents inserted.`);
+        }
+    }
+}
+
 async function findFilePath(collName) {
+    const directory = "../report-data/reports";
+    const files = fs.readdirSync(directory);
+
     var prefix = "";
     switch (collName) {
-        case ("attendance_reports"):
+        case "attendance_reports":
             prefix = "Student Attendance";
             break;
-        case ("dwp_reports"):
+        case "dwp_reports":
             prefix = "Digital Workout";
             break;
-        case ("enrollment_reports"):
+        case "enrollment_reports":
             prefix = "Enrolled Report";
             break;
-        case ("student_reports"):
+        case "student_reports":
             prefix = "Student Report";
             break;
     }
 
-    const directory = "../report-data/reports";
-    const files = fs.readdirSync(directory);
     for (const file of files) {
-        if (file.startsWith(prefix) && file.endsWith('.xlsx')) {
+        if (file.startsWith(prefix) && file.endsWith(".xlsx")) {
             return path.join(directory, file);
         }
     }

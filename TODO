@@ -6,7 +6,8 @@ TODO:
                 ☐ make script that can update *ALL* database collections with .xlsx files @critical
                     ✔ script that imports data to specific collections
                     ✔ script that imports data to all collections
-                    ☐ change so that it updates existing data based off the uid or adds new ones if doesn't exist @critical
+                    ✔ change so that it updates existing data based off the uid or adds new ones if doesn't exist @critical
+                    ☐ when change that all files are auto downloaded, have the import method just look at all files in the directory
                     ✔ script that deletes all imported report data @high
             ✔ control - create collection for general information @critical
                 ☐ store date last updated for each report @critical
