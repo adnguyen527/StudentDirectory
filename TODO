@@ -23,12 +23,14 @@ TODO:
                         ✔ methods to add/updated relevant data into student object @critical
                         ☐ when updating reports from xlsx file, skip the reports that have no changes to them to save time @critical
                 ✔ uid, name, center, grade, enrollment status, age/dob
+                ☐ topics student has completed
                 ✔ attendance
                     ✔ method to add new attendances to list of existing @high
                     ☐ check for repeated attendances and only add unique ones
                 ✔ grade 
                     ✔ school year
                     ☐ script to update all for a school year @low
+                ☐ add mastery check counter to student object - duplicates/re-add are counted after 8/1/2024
         Enrollment Reports:
             ✔ current level for a student
             ☐ script to update all enrolled students with their current level and add it to the student master @high
@@ -39,6 +41,7 @@ TODO:
             ☐ rework total pages of specific students to pull from dwp on student collection @high
             ☐ rework mastery checks of students to pull from dwp on student collection @high
             ☐ merge DWP with attendance object, somehow
+            ☐ script that takes the dwp report file and adds the new dwps to collection @high
         Student Reports:
             ✔ check how long ago was last assessment @high
             ✔ check how long since last update @low

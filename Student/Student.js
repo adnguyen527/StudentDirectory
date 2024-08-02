@@ -21,6 +21,8 @@ export default class Student {
         this.lastLPUpdate = "";
         this.attendanceRecords = [];
         this.dwpReports = [];
+        this.totalMCsMastered = 0;
+        this.topicsMastered = [];
         this.lastModified = new Date();
     }
 
@@ -46,6 +48,20 @@ export default class Student {
             const dwop = new DigitalWorkoutPlan();
             dwop.importReport(report);
             this.dwpReports.push(dwop);
+
+            // add unique topics to topicsMastered
+            for (const topic of dwop.topics) {
+                const parts = topic.split(": ");
+                const status = parts.pop();
+                const topic_name = parts.join(": ");
+                if (status == "Mastered") {
+                    if (!this.topicsMastered.includes(topic_name)) {
+                        this.topicsMastered.push(topic_name);
+                        // this.totalMCsMastered++;
+                    }
+                    this.totalMCsMastered++;
+                }
+            }
         }
     }
 
@@ -99,7 +115,7 @@ export default class Student {
 
     // calc and set current level
     setLevel() {
-        let months = parseFloat(doc["Student Length of Stay"].split(" ")[0]);
+        let months = parseFloat(this.stayLength.split(" ")[0]);
         var level = 1;
         if (months >= 4) level = 2;
         if (months >= 10) level += Math.floor((months - 4) / 6);
