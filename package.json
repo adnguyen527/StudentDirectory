@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "mongodb": "^6.8.0",
+    "puppeteer": "^22.15.0",
     "xlsx": "^0.18.5"
   },
   "type": "module"
