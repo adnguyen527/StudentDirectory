@@ -1,0 +1,15 @@
+name: Run Script Daily
+
+on:
+    schedule:
+        - cron: "0 2 * * *" # Runs at 2:00 UTC daily
+
+jobs:
+    run-script:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Run script
+              run: node 'DWP Reports/runDailyDWPReports.js'
