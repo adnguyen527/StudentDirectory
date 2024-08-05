@@ -15,6 +15,10 @@ TODO:
                 ✔ control - user collection @low
             ✔ move connection info mongodb to a different file for all scripts @low
             ☐ export excel files to print @critical
+            ☐ script pipeline that automatically daily, downloads today dwp, import into dwp_reports and add to student master @critical
+                ☐ automatically ran daily - Git?
+                ✔ download today dwps
+                ☐ add to dwp_reports and student master
         Students:
             ✔ create new student info collection with only relevant information @critical
                 ✔ Student class

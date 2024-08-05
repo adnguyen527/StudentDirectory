@@ -57,9 +57,9 @@ export default class Student {
                 if (status == "Mastered") {
                     if (!this.topicsMastered.includes(topic_name)) {
                         this.topicsMastered.push(topic_name);
-                        // this.totalMCsMastered++;
+                        this.totalMCsMastered++;
                     }
-                    this.totalMCsMastered++;
+                    // this.totalMCsMastered++;
                 }
             }
         }

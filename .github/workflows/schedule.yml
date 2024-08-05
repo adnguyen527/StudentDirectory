@@ -1,0 +1,23 @@
+name: Run Script Daily
+
+on:
+    schedule:
+        - cron: "0 2 * * *" # Runs at 2:00 UTC daily
+
+jobs:
+    run-script:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v3 # Sets up Node.js environment
+              with:
+                  node-version: "14" # Specify the Node.js version you need
+
+            - name: Install dependencies
+              run: npm install # Install dependencies defined in package.json
+
+            - name: Run script
+              run: node 'DWP Reports/runDailyDWPReports.js'

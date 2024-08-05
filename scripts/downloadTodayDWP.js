@@ -36,7 +36,8 @@ async function copyFileToLocations(sourceFilePath, downloadPaths) {
     );
 }
 
-(async () => {
+export async function downloadTodayDWP() {
+    console.log(`Starting daily download: ${getFormattedDate()}`);
     // Launch a headless browser
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
@@ -45,9 +46,10 @@ async function copyFileToLocations(sourceFilePath, downloadPaths) {
     const downloadPaths = [
         path.resolve(""),
         path.resolve(
-            `../report-data/reports/downloaded_dwps/${getFormattedDate()}`
+            process.cwd(),
+            `report-data/reports/downloaded_dwps/${getFormattedDate()}`
         ),
-        path.resolve("downloads"),
+        path.resolve(process.cwd(), "DWP Reports/downloads"),
     ];
 
     // Ensure all directories exist
@@ -93,13 +95,10 @@ async function copyFileToLocations(sourceFilePath, downloadPaths) {
                 waitUntil: "networkidle2",
             }
         );
-        console.log("on login page");
 
         // login
         await page.type("#UserName", "anthony.nguyen1");
-        console.log("username entered");
         await page.type("#Password", "mathnasiumsl123");
-        console.log("password entered");
         await page.click("#login");
         // await page.waitForNavigation({ waitUntil: "networkidle2" });
         console.log("login complete");
@@ -111,14 +110,11 @@ async function copyFileToLocations(sourceFilePath, downloadPaths) {
                 waitUntil: "networkidle2",
             }
         );
-        console.log("on dwp report page");
 
         // Interact with the page elements to initiate the download
         await page.click("#btnsearch"); // search button
         await delay(5000); // Adjust the timeout as needed
-        console.log("searched");
         await page.click("#dwpExcelBtn"); // export to excel button
-        console.log("export clicked");
 
         // Wait for the download to complete
         await delay(5000); // Adjust the timeout as needed
@@ -128,7 +124,7 @@ async function copyFileToLocations(sourceFilePath, downloadPaths) {
         console.error(`Error during download: ${error.message}`);
         await browser.close();
     }
-})();
+}
 
 function delay(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
