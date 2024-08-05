@@ -2,22 +2,88 @@ import puppeteer from "puppeteer";
 import fs from "fs";
 import path from "path";
 
+// Function to wait for the download to complete
+function waitForDownloadCompletion(downloadPath, callback) {
+    let files = new Set();
+
+    const watcher = fs.watch(downloadPath, (eventType, filename) => {
+        if (eventType === "rename" && filename) {
+            // Check if the file has a '.crdownload' extension, indicating it's still downloading
+            if (!filename.endsWith(".crdownload")) {
+                if (!files.has(filename)) {
+                    files.add(filename);
+                    callback(filename, watcher);
+                }
+            }
+        }
+    });
+
+    return watcher;
+}
+
+// Function to copy the downloaded file to multiple locations
+async function copyFileToLocations(sourceFilePath, downloadPaths) {
+    // Wait for all copy operations to complete
+    await Promise.all(
+        downloadPaths.slice(1).map(async (downloadPath) => {
+            const destinationFilePath = path.join(
+                downloadPath,
+                path.basename(sourceFilePath)
+            );
+            await fs.promises.copyFile(sourceFilePath, destinationFilePath);
+            console.log(`Copied file to: ${destinationFilePath}`);
+        })
+    );
+}
+
 (async () => {
     // Launch a headless browser
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
 
-    // Set the download path
-    const downloadPath = path.resolve(
-        `../report-data/reports/downloaded_dwps/${getFormattedDate()}`
-    );
-    fs.mkdirSync(downloadPath, { recursive: true });
+    // list of download locations
+    const downloadPaths = [
+        path.resolve(""),
+        path.resolve(
+            `../report-data/reports/downloaded_dwps/${getFormattedDate()}`
+        ),
+        path.resolve("downloads"),
+    ];
 
-    // Set the download behavior
+    // Ensure all directories exist
+    downloadPaths.forEach((downloadPath) =>
+        fs.mkdirSync(downloadPath, { recursive: true })
+    );
+
+    // Set the download path to a temporary location
+    const initialDownloadPath = downloadPaths[0];
     await page._client().send("Page.setDownloadBehavior", {
         behavior: "allow",
-        downloadPath: downloadPath,
+        downloadPath: initialDownloadPath,
     });
+
+    // Monitor the initial download path for completed downloads
+    const watcher = waitForDownloadCompletion(
+        initialDownloadPath,
+        async (filename, watcher) => {
+            console.log(`File downloaded: ${filename}`);
+
+            const sourceFilePath = path.join(initialDownloadPath, filename);
+
+            // Copy the file to each of the other locations
+            try {
+                // Ensure the file is copied to all specified locations before proceeding
+                await copyFileToLocations(sourceFilePath, downloadPaths);
+            } catch (copyError) {
+                console.error(`Error copying file: ${copyError.message}`);
+            } finally {
+                // Close the browser and stop watching once the file is processed
+                watcher.close();
+                await browser.close();
+                console.log("Browser closed and script finished");
+            }
+        }
+    );
 
     try {
         // Navigate to the page with the file
@@ -57,11 +123,9 @@ import path from "path";
         // Wait for the download to complete
         await delay(5000); // Adjust the timeout as needed
 
-        console.log(`File downloaded to: ${downloadPath}`);
+        console.log("Completed waiting for the download to finish");
     } catch (error) {
         console.error(`Error during download: ${error.message}`);
-    } finally {
-        // Close the browser
         await browser.close();
     }
 })();
@@ -72,7 +136,7 @@ function delay(time) {
 
 function getFormattedDate() {
     const today = new Date();
-    const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are zero-based, so add 1
+    const month = String(today.getMonth() + 1).padStart(2, "0");
     const day = String(today.getDate()).padStart(2, "0");
     const year = today.getFullYear();
 
