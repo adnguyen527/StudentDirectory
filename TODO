@@ -6,7 +6,8 @@ TODO:
                 ☐ make script that can update *ALL* database collections with .xlsx files @critical
                     ✔ script that imports data to specific collections
                     ✔ script that imports data to all collections
-                    ☐ change so that it updates existing data based off the uid or adds new ones if doesn't exist @critical
+                    ✔ change so that it updates existing data based off the uid or adds new ones if doesn't exist @critical
+                    ☐ when change that all files are auto downloaded, have the import method just look at all files in the directory
                     ✔ script that deletes all imported report data @high
             ✔ control - create collection for general information @critical
                 ☐ store date last updated for each report @critical
@@ -15,48 +16,67 @@ TODO:
             ✔ move connection info mongodb to a different file for all scripts @low
             ☐ export excel files to print @critical
         Students:
-            ☐ create new student info collection with only relevant information @critical
-                ☐ uid, name, center, grade, enrollment status, age/dob
-                ☐ attendance
-                ☐ grade 
-                    ☐ school year
-                    ☐ script to update all for a school year
+            ✔ create new student info collection with only relevant information @critical
+                ✔ Student class
+                    ✔ initial populate Student collection with docs based off of class objects @critical
+                        ✔ script that scans reports and insert/update collection Student @critical
+                        ✔ methods to add/updated relevant data into student object @critical
+                        ☐ when updating reports from xlsx file, skip the reports that have no changes to them to save time @critical
+                ✔ uid, name, center, grade, enrollment status, age/dob
+                ☐ topics student has completed
+                ✔ attendance
+                    ✔ method to add new attendances to list of existing @high
+                    ☐ check for repeated attendances and only add unique ones
+                ✔ grade 
+                    ✔ school year
+                    ☐ script to update all for a school year @low
+                ☐ add mastery check counter to student object - duplicates/re-add are counted after 8/1/2024
         Enrollment Reports:
             ✔ current level for a student
-            ☐ script to update all enrolled students with their current level and add it to the document @high
+            ☐ script to update all enrolled students with their current level and add it to the student master @high
             ☐ membership type @low
         Digital Workout Plan Reports:
-            ✔ total pages (all students and each student) @high
-            ✔ mastery checks @high
-            ✔ choose center/all @high
-            ☐ track topics worked on /complete including date @low
-            ☐ Instructor stats @high
-                ☐ days worked @high
-                ☐ pages checked @low
-                ☐ MCs checked @low
-                ☐ center @low
-                ☐ average pages/MCs per day @low
+            ✔ import DWP info into DigitalWorkoutPlan class object
+                ✔ track topics worked on /complete including date @low
+            ☐ rework total pages of specific students to pull from dwp on student collection @high
+            ☐ rework mastery checks of students to pull from dwp on student collection @high
+            ☐ merge DWP with attendance object, somehow
+            ☐ script that takes the dwp report file and adds the new dwps to collection @high
         Student Reports:
-            ☐ check how long ago was last assessment @high
-            ☐ check how long since last update @low
+            ✔ check how long ago was last assessment @high
+            ✔ check how long since last update @low
             ☐ add last reload date to document @high
                 ☐ check which students haven't been reloaded *today* @high
             ☐ choose center/all @high
             ☐ which students need a reload @critical
-            ☐ last attendance @low
+            ✔ last attendance @low
         Attendance Reports:
+            ☐ track when the collection was populated
+            ✔ script to map all attendances to add to student docs @critical
             ☐ # of visits for students/all that month @critical
+            ✔ Attendance class to be stored in Student class
+                ☐ combine with DWP reports for all the objects
+                ☐ when linking DWP with attendances, be careful with some students with double attendances like Emilia Klausz for 2 hr sessions
             ☐ only students over 10 visits @high
             ☐ total attendance per day at center @high
             ☐ choose center/all @high
             ☐ phantom/short attendances @low
         Birthdays:
             ✔ create a birthday collection @critical
-                ☐ initially run every student's birthday and add/update @critical
-                ☐ create new birthday object - name, birthday, age, center
-                ☐ calculate age @low
-                ☐ when running enrollment report, add new enrolled name if their bd doesn't exist and notify user that birthday does not exist in mongo @low
+                ✔ initially run every student's birthday and add/update @critical
+                ✔ create new birthday object - name, birthday, age, center
+                ✔ add a separate import birthday method that looks through all birthday docs and assigns them to the correct student
+                ✔ calculate age @low
+                ✔ when running enrollment report, add new enrolled name if their bd doesn't exist and notify user that birthday does not exist in mongo @low
             ☐ choose center/all @high
+        Instructors:
+            ✔ Instructor class object
+                ✔ name, dates worked, pages checked, MCs
+            ☐ all DWPs
+            ☐ center
+            ☐ method - counts how many pages checked
+            ☐ method - counts MCs signed off
+            ☐ method - list all dates worked
     *FRONTEND*:
         Overall:
             ☐ home dashboard page @critical
@@ -72,6 +92,7 @@ TODO:
             ☐ age/DOB @low
             ☐ last attendance @low
             ☐ student length of stay and current level - *as of last update* @high
+            ☐ button that changes the reload date to TODAY, with date next to it displayed
             ☐ when last reloaded - need to add reload date first @high
             ☐ pages/MCs completed @high
                 ☐ bonus points for a specified timeframe @low
@@ -92,7 +113,22 @@ TODO:
             ☐ Graphs? that track daily attendance @high
             ☐ weekly and monthly stats @low
             ☐ sort by center @critical
-    FIXME:
-        ☐ if a student has more than two names, CLI issue arguments @low
+        Import Reports Page:
+            ☐ upload xlsx files
+            ☐ automatically import that data into student master
+            ☐ do it for each report file separately to save time
+            ☐ update or create new student for each report file individually
+    *FIXME*:
+        ☐ if a student has more than two names @low
+        ☐ change js queries to Mongo aggregations instead for that beautiful c++ speed @high
+        ☐ Siblings are under the same account id @high
+        ☐ investigate why some students have enrollment report but not student reports
+        ☐ "* ISEE Boot Camp (Private Sessions Package)" double enrollment reports
+            ☐ maybe have an ignore list for enrollment reports when iterating through initially
+            ☐ include extra memberships in another field of student??
     
-    Archive:
+    *ARCHIVE*:
+        Digital Workout Plan Reports:
+            ✔ total pages (all students and each student) @high
+            ✔ mastery checks @high
+            ✔ choose center/all @high

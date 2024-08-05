@@ -1,5 +1,5 @@
-import {MongoClient} from 'mongodb';
-import {uri} from '../mongo_url.js';
+import { MongoClient } from "mongodb";
+import { uri } from "../mongo_url.js";
 
 const dbName = "StudentDirectory";
 
@@ -14,7 +14,7 @@ async function deleteAllReportData() {
         await deleteAll(db, "enrollment_reports");
         await deleteAll(db, "attendance_reports");
         await deleteAll(db, "student_reports");
-
+        await deleteAll(db, "birthday_reports");
     } catch (error) {
         console.error("Error deleting documents: ", error);
     } finally {
@@ -23,9 +23,11 @@ async function deleteAllReportData() {
 
     async function deleteAll(db, collName) {
         const result = await db.collection(collName).deleteMany({});
-        console.log(`${result.deletedCount} documents deleted fron ${collName}`);
+        console.log(
+            `${result.deletedCount} documents deleted fron ${collName}`
+        );
     }
 }
 
 // run function
-deleteAllReportData()
+deleteAllReportData();
