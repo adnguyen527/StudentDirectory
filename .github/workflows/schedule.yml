@@ -10,7 +10,7 @@ jobs:
         runs-on: ubuntu-latest
 
         env:
-            TZ: America/New_York # Set your desired time zone here
+            TZ: America/Chicago # Set your desired time zone here
 
         steps:
             - name: Checkout code
