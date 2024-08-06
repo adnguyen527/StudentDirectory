@@ -47,9 +47,11 @@ jobs:
                   git add .
                   # Commit with the current date in the message
                   git commit -m "Add downloaded files - $current_date"
+
             - name: Push changes
               run: |
                   cd report-data
+                  git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/report-data.git
                   git push origin main
               env:
                   GITHUB_TOKEN: ${{ secrets.SUBMODULE_PAT }}
