@@ -11,6 +11,9 @@ jobs:
         steps:
             - name: Checkout code
               uses: actions/checkout@v3
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  persist-credentials: false
 
             - name: Set up Node.js
               uses: actions/setup-node@v3 # Sets up Node.js environment
@@ -26,3 +29,19 @@ jobs:
               run: node 'DWP Reports/runDailyDWPReports.js'
               env:
                   PUPPETEER_EXECUTABLE_PATH: "/usr/bin/google-chrome-stable"
+
+            - name: Configure Git
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+
+            - name: Commit changes
+              run: |
+                  # Get the current date in YYYY-MM-DD format
+                  current_date=$(date +'%Y-%m-%d')
+                  # Add changes to git
+                  git add .
+                  # Commit with the current date in the message
+                  git commit -m "Add downloaded files - $current_date"
+                  # Push changes
+                  git push origin ${{ github.ref }}
