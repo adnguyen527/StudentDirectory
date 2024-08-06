@@ -55,6 +55,7 @@ jobs:
                   cd .
                   git add report-data
                   git commit -m "Update submodule reference"
+                  git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/StudentDirectory.git
                   git push origin HEAD:${{ github.ref_name}}
               env:
                   GITHUB_TOKEN: ${{ secrets.SUBMODULE_PAT }}
