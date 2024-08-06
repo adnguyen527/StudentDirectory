@@ -18,7 +18,7 @@ jobs:
               with:
                   token: ${{ secrets.SUBMODULE_PAT }}
                   persist-credentials: false
-                  submodule: true
+                  submodules: true
 
             - name: Set up Node.js
               uses: actions/setup-node@v3 # Sets up Node.js environment
