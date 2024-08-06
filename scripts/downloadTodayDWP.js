@@ -49,6 +49,7 @@ export async function downloadTodayDWP() {
             process.cwd(),
             `report-data/reports/downloaded_dwps/${getFormattedDate()}`
         ),
+        path.resolve(process.cwd(), `archive/${getFormattedDate()}`),
         path.resolve(process.cwd(), "DWP Reports/downloads"),
     ];
 
