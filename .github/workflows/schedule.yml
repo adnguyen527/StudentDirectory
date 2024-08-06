@@ -8,6 +8,10 @@ on:
 jobs:
     run-script:
         runs-on: ubuntu-latest
+
+        env:
+            TZ: America/New_York # Set your desired time zone here
+
         steps:
             - name: Checkout code
               uses: actions/checkout@v3
@@ -32,8 +36,8 @@ jobs:
 
             - name: Configure Git
               run: |
-                  git config user.name "adnguyen527"
-                  git config user.email "adnguyen527@gmail.com"
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
 
             - name: Commit changes
               run: |
@@ -44,4 +48,4 @@ jobs:
                   # Commit with the current date in the message
                   git commit -m "Add downloaded files - $current_date"
                   # Push changes
-                  git push origin ${{ github.ref }}
+                  git push origin HEAD:${{ github.ref_name }}
