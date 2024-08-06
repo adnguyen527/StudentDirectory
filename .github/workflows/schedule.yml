@@ -2,7 +2,7 @@ name: Run Script Daily
 
 on:
     schedule:
-        - cron: "0 2 * * *" # Runs at 2:00 UTC daily
+        - cron: "0 9 * * *" # Runs at 21:00 CST daily
     workflow_dispatch:
 
 jobs:
@@ -16,8 +16,9 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v3
               with:
-                  token: ${{ secrets.GITHUB_TOKEN }}
+                  token: ${{ secrets.SUBMODULE_PAT }}
                   persist-credentials: false
+                  submodule: true
 
             - name: Set up Node.js
               uses: actions/setup-node@v3 # Sets up Node.js environment
@@ -34,18 +35,21 @@ jobs:
               env:
                   PUPPETEER_EXECUTABLE_PATH: "/usr/bin/google-chrome-stable"
 
-            - name: Configure Git
+            - name: Configure git
               run: |
-                  git config user.name "github-actions[bot]"
-                  git config user.email "github-actions[bot]@users.noreply.github.com"
+                  git config --global user.name "adnguyen527"
+                  git config --global user.email "adnguyen527@gmail.com"
 
-            - name: Commit changes
+            - name: Commit changes to submodule
               run: |
-                  # Get the current date in YYYY-MM-DD format
                   current_date=$(date +'%Y-%m-%d')
-                  # Add changes to git
+                  cd report-data
                   git add .
                   # Commit with the current date in the message
                   git commit -m "Add downloaded files - $current_date"
-                  # Push changes
-                  git push origin HEAD:${{ github.ref_name }}
+            - name: Push changes
+              run: |
+                  cd report-data
+                  git push origin main
+              env:
+                  GITHUB_TOKEN: ${{ secrets.SUBMODULE_PAT }}
