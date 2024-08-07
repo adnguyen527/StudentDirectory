@@ -1,8 +1,6 @@
-import { UUID } from "mongodb";
-
 export default class DigitalWorkoutPlan {
     constructor() {
-        this.uuid = new UUID();
+        this.uuid = "";
         this.accountId = "";
         this.studentName = "";
         this.finalizedDate = "";
@@ -19,6 +17,7 @@ export default class DigitalWorkoutPlan {
 
     // import relevant DWP data
     importReport(dwp_report) {
+        this.uuid = dwp_report._id;
         this.accountId = dwp_report["Account Id"];
         this.studentName = dwp_report["Student Name"];
         this.finalizedDate = dwp_report["Finalized Date"];
