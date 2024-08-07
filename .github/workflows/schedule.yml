@@ -61,7 +61,8 @@ jobs:
               run: |
                   cd $GITHUB_WORKSPACE
                   git add report-data
-                  git commit -m "Update submodule reference"
+                  git commit -m "Update submodule reference" || echo "No changes to commit"
+                  git pull origin main --rebase # Ensure have the latest changes
                   git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/StudentDirectory.git
                   git push origin ${{github.ref_name}}
               env:
