@@ -45,7 +45,7 @@ jobs:
                   cd report-data
                   git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/report-data.git
                   git fetch --all
-                  git checkout main # Ensure on the correct branch
+                  git checkout -f main # Ensure on the correct branch, force checkout if needed, should always be creating new file
                   git pull origin main
 
             - name: Commit changes to submodule
