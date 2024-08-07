@@ -42,7 +42,7 @@ jobs:
 
             - name: Fetch and update submodule references
               run: |
-                  cd path/to/your/submodule
+                  cd report-data
                   git fetch --all
                   git checkout main # Ensure on the correct branch
                   git pull origin main
