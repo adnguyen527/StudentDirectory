@@ -6,7 +6,7 @@ import { uri } from "../mongo_url.js";
 
 const dbName = "StudentDirectory";
 
-async function importData() {
+async function importAllReportData() {
     const client = new MongoClient(uri);
 
     try {
@@ -18,13 +18,16 @@ async function importData() {
         await updateDocuments(db, "enrollment_reports");
         await updateDocuments(db, "student_reports");
         await importBirthdayDocuments(db);
+
+        // insert all downloaded dwps into collections
+        await addDownloadedDWPs(db);
     } catch (error) {
         console.error(error);
     } finally {
         await client.close();
     }
 }
-importData();
+importAllReportData();
 
 async function updateDocuments(db, collName) {
     const coll = db.collection(collName);
@@ -67,6 +70,14 @@ async function importBirthdayDocuments(db) {
             console.log(`${result.insertedCount} documents inserted.`);
         }
     }
+}
+
+async function addDownloadedDWPs(db) {
+    // access collection
+    // read directory and files
+    // for each folder and read dwp file
+    // convert to json and insertMany into dwp collection
+    // log the count of how many inserted for each day? or total
 }
 
 async function findFilePath(collName) {

@@ -17,7 +17,7 @@ export default class DigitalWorkoutPlan {
 
     // import relevant DWP data
     importReport(dwp_report) {
-        this.uuid = dwp_report._id;
+        this.uuid = dwp_report.get("_id");
         this.accountId = dwp_report["Account Id"];
         this.studentName = dwp_report["Student Name"];
         this.finalizedDate = dwp_report["Finalized Date"];

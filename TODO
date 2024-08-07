@@ -15,10 +15,12 @@ TODO:
                 ✔ control - user collection @low
             ✔ move connection info mongodb to a different file for all scripts @low
             ☐ export excel files to print @critical
-            ☐ script pipeline that automatically daily, downloads today dwp, import into dwp_reports and add to student master @critical
-                ☐ automatically ran daily - Git?
+            ✔ script pipeline that automatically daily, downloads today dwp, import into dwp_reports and add to student master @critical
+                ✔ automatically ran daily - Git?
                 ✔ download today dwps
-                ☐ add to dwp_reports and student master
+                ✔ add to dwp_reports and student master
+            ☐ add new enrollment, student reports
+            ☐ add new attendance reports - like dwp reports
         Students:
             ✔ create new student info collection with only relevant information @critical
                 ✔ Student class
@@ -45,7 +47,6 @@ TODO:
             ☐ rework total pages of specific students to pull from dwp on student collection @high
             ☐ rework mastery checks of students to pull from dwp on student collection @high
             ☐ merge DWP with attendance object, somehow
-            ☐ script that takes the dwp report file and adds the new dwps to collection @high
         Student Reports:
             ✔ check how long ago was last assessment @high
             ✔ check how long since last update @low
