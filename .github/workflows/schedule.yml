@@ -1,8 +1,8 @@
 name: Run Script Daily
 
 on:
-    #schedule:
-    #- cron: "0 2 * * *" # Runs at 2:00 UTC daily
+    schedule:
+        - cron: "0 9 * * *" # Runs at 21:00 CST daily
     workflow_dispatch:
 
 jobs:
@@ -16,8 +16,9 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v3
               with:
-                  token: ${{ secrets.GITHUB_TOKEN }}
+                  token: ${{ secrets.SUBMODULE_PAT }}
                   persist-credentials: false
+                  submodules: recursive
 
             - name: Set up Node.js
               uses: actions/setup-node@v3 # Sets up Node.js environment
@@ -34,18 +35,36 @@ jobs:
               env:
                   PUPPETEER_EXECUTABLE_PATH: "/usr/bin/google-chrome-stable"
 
-            - name: Configure Git
+            - name: Configure git
               run: |
-                  git config user.name "github-actions[bot]"
-                  git config user.email "github-actions[bot]@users.noreply.github.com"
+                  git config --global user.name "adnguyen527"
+                  git config --global user.email "adnguyen527@gmail.com"
 
-            - name: Commit changes
+            - name: Fetch and update submodule references
               run: |
-                  # Get the current date in YYYY-MM-DD format
-                  current_date=$(date +'%Y-%m-%d')
-                  # Add changes to git
+                  cd report-data
+                  git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/report-data.git
+                  git fetch --all
+                  git checkout -f main # Ensure on the correct branch, force checkout if needed, should always be creating new file
+                  git pull origin main
+
+            - name: Commit changes to submodule
+              run: |
+                  cd report-data
                   git add .
                   # Commit with the current date in the message
-                  git commit -m "Add downloaded files - $current_date"
-                  # Push changes
-                  git push origin HEAD:${{ github.ref_name }}
+                  git commit -m "Add downloaded files - $(date +'%Y-%m-%d')" || echo "No changes to commit"
+                  git push origin main
+
+            - name: Update main repository submodule reference
+              run: |
+                  cd $GITHUB_WORKSPACE
+                  git add report-data
+                  git commit -m "Update submodule reference - $(date +'%Y-%m-%d')" || echo "No changes to commit"
+                  git stash
+                  git pull origin ${{github.ref_name}} --rebase || exit 1 # Ensure have the latest changes
+                  git stash pop || echo "No stashed changes to apply"
+                  git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/StudentDirectory.git
+                  git push origin ${{github.ref_name}}
+              env:
+                  GITHUB_TOKEN: ${{ secrets.SUBMODULE_PAT }}
