@@ -40,6 +40,13 @@ jobs:
                   git config --global user.name "adnguyen527"
                   git config --global user.email "adnguyen527@gmail.com"
 
+            - name: Fetch and update submodule references
+              run: |
+                  cd path/to/your/submodule
+                  git fetch --all
+                  git checkout main # Ensure on the correct branch
+                  git pull origin main
+
             - name: Commit changes to submodule
               run: |
                   current_date=$(date +'%Y-%m-%d')
