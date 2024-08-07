@@ -18,7 +18,7 @@ jobs:
               with:
                   token: ${{ secrets.SUBMODULE_PAT }}
                   persist-credentials: false
-                  submodules: true
+                  submodules: recursive
 
             - name: Set up Node.js
               uses: actions/setup-node@v3 # Sets up Node.js environment
@@ -56,6 +56,6 @@ jobs:
                   git add report-data
                   git commit -m "Update submodule reference"
                   git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/StudentDirectory.git
-                  git push origin HEAD:${{ github.ref_name}}
+                  git push origin main
               env:
                   GITHUB_TOKEN: ${{ secrets.SUBMODULE_PAT }}
