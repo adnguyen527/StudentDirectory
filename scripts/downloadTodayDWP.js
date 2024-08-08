@@ -49,9 +49,11 @@ export async function downloadTodayDWP() {
     const page = await browser.newPage();
     await page.emulateTimezone("America/Chicago");
 
-    const dateTime = await page.evaluate(
-        () => document.querySelector("#date-time-element").innerText
-    );
+    const browserTime = await page.evaluate(() => {
+        return new Date().toLocaleString("en-US", {
+            timeZone: "America/Chicago",
+        });
+    });
     console.log("Date and Time:", dateTime);
 
     // list of download locations
