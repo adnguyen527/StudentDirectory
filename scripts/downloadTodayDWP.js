@@ -54,7 +54,7 @@ export async function downloadTodayDWP() {
             timeZone: "America/Chicago",
         });
     });
-    console.log("Date and Time:", dateTime);
+    console.log("Date and Time:", browserTime);
 
     // list of download locations
     const downloadPaths = [
