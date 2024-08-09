@@ -42,7 +42,7 @@ jobs:
 
             - name: Ensure clean working directory in submodule
               run: |
-                  cd path/to/submodule
+                  cd report-data
                   git reset --hard
                   git clean -fd
 
