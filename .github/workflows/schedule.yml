@@ -44,8 +44,9 @@ jobs:
               run: |
                   cd report-data
                   git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/report-data.git
-                  git fetch
-                  git checkout $(git rev-list --max-count=1 HEAD)
+                  git fetch origin
+                  git checkout main
+                  git pull origin main
                   git add .
                   # Commit with the current date in the message
                   git commit -m "Add downloaded files - $(date +'%Y-%m-%d')" || echo "No changes to commit"
