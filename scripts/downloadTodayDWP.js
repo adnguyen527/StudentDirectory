@@ -126,6 +126,10 @@ export async function downloadTodayDWP() {
             }
         );
 
+        // select date if desired, comment out
+        await page.type("#dwpFromDate", "8/8/2024");
+        await page.type("#dwpToDate", "8/8/2024");
+
         // Interact with the page elements to initiate the download
         await page.click("#btnsearch"); // search button
         await delay(5000); // Adjust the timeout as needed

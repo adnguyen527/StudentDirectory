@@ -22,10 +22,10 @@ async function main() {
         await downloadTodayDWP();
 
         // INSERT INTO dwp_reports ----
-        await insertDWPReports(db);
+        // await insertDWPReports(db);
 
         // add dwps to existing student ONLY, dont add new student ----
-        await addDWPtoStudents(db);
+        // await addDWPtoStudents(db);
 
         // delete file after use
         fs.unlinkSync(filePath);
