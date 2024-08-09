@@ -46,7 +46,7 @@ jobs:
                   git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/report-data.git
                   git fetch --all --verbose
                   git checkout -f main # Ensure on the correct branch, force checkout if needed
-                  git pull origin main
+                  git pull --rebase origin main
                   git add .
                   # Commit with the current date in the message
                   git commit -m "Add downloaded files - $(date +'%Y-%m-%d')" || echo "No changes to commit"
