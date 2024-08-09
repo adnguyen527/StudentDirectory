@@ -45,7 +45,7 @@ jobs:
                   cd report-data
                   git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/report-data.git
                   git fetch origin
-                  git checkout main
+                  git checkout -f main
                   git reset --hard
                   git clean -fd
 
