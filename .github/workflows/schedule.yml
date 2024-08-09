@@ -40,16 +40,9 @@ jobs:
                   git config --global user.name "adnguyen527"
                   git config --global user.email "adnguyen527@gmail.com"
 
-            - name: Fetch and update submodule references
-              run: |
-                  cd report-data
-                  git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/report-data.git
-                  git fetch --all --verbose
-                  git checkout -f main # Ensure on the correct branch, force checkout if needed, should always be creating new file
-                  git pull origin main
-
             - name: Commit changes to submodule
               run: |
+                  git submodule update --remote --merge
                   cd report-data
                   git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/report-data.git
                   git add .
