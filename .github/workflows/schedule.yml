@@ -51,7 +51,7 @@ jobs:
 
             - name: Update main repository submodule reference
               run: |
-                  cd ..
+                  cd $GITHUB_WORKSPACE
                   git add report-data
                   git commit -m "Update submodule reference - $(date +'%Y-%m-%d')" || echo "No changes to commit"
                   git push
