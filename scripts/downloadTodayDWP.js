@@ -52,7 +52,7 @@ export async function downloadTodayDWP() {
 
     const browserTime = await page.evaluate(() => {
         return new Date().toLocaleString("en-US", {
-            timeZone: timezone,
+            timeZone: "Pacific/Midway",
         });
     });
     console.log("Date and Time:", browserTime);
