@@ -43,6 +43,8 @@ jobs:
             - name: Commit changes to submodule
               run: |
                   cd report-data
+                  git fetch
+                  git checkout $(git rev-list --max-count=1 HEAD)
                   git add .
                   # Commit with the current date in the message
                   git commit -m "Add downloaded files - $(date +'%Y-%m-%d')" || echo "No changes to commit"
@@ -54,6 +56,7 @@ jobs:
                   cd $GITHUB_WORKSPACE
                   git add report-data
                   git commit -m "Update submodule reference - $(date +'%Y-%m-%d')" || echo "No changes to commit"
+                  git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/StudentDirectory.git
                   git push
               env:
                   GITHUB_TOKEN: ${{ secrets.SUBMODULE_PAT }}
