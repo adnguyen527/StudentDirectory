@@ -39,19 +39,20 @@ async function copyFileToLocations(sourceFilePath, downloadPaths) {
 export async function downloadTodayDWP() {
     console.log(`Starting daily download: ${getFormattedDate()}`);
     // Launch a headless browser
+    const timezone = "Pacific/Midway";
     const browser = await puppeteer.launch({
         headless: true,
         args: [
             "--lang=en-US", // Set language to US English
-            "--timezone=America/Chicago", // Set timezone to CST/CDT
+            `--timezone=${timezone}`, // Set timezone to CST/CDT
         ],
     });
     const page = await browser.newPage();
-    await page.emulateTimezone("America/Chicago");
+    await page.emulateTimezone(timezone);
 
     const browserTime = await page.evaluate(() => {
         return new Date().toLocaleString("en-US", {
-            timeZone: "America/Chicago",
+            timeZone: timezone,
         });
     });
     console.log("Date and Time:", browserTime);
