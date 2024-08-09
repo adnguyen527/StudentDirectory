@@ -43,6 +43,7 @@ jobs:
             - name: Ensure clean working directory in submodule
               run: |
                   cd report-data
+                  git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/report-data.git
                   git fetch origin
                   git checkout main
                   git reset --hard
@@ -51,7 +52,6 @@ jobs:
             - name: Commit changes to submodule
               run: |
                   cd report-data
-                  git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/report-data.git
                   git pull origin main
                   git add .
                   # Commit with the current date in the message
