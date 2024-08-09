@@ -56,7 +56,7 @@ jobs:
                   git add .
                   # Commit with the current date in the message
                   git commit -m "Add downloaded files - $(date +'%Y-%m-%d')" || echo "No changes to commit"
-                  git push origin main
+                  git push
 
             - name: Update main repository submodule reference
               run: |
