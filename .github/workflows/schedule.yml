@@ -52,7 +52,6 @@ jobs:
             - name: Commit changes to submodule
               run: |
                   cd report-data
-                  git pull origin main
                   git add .
                   # Commit with the current date in the message
                   git commit -m "Add downloaded files - $(date +'%Y-%m-%d')" || echo "No changes to commit"
