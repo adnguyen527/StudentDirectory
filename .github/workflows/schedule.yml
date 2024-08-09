@@ -43,12 +43,12 @@ jobs:
             - name: Commit changes to submodule
               run: |
                   cd report-data
+                  git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@githuab.com/adnguyen527/report-data.git
                   git fetch
                   git checkout $(git rev-list --max-count=1 HEAD)
                   git add .
                   # Commit with the current date in the message
                   git commit -m "Add downloaded files - $(date +'%Y-%m-%d')" || echo "No changes to commit"
-                  git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/report-data.git
                   git push origin main
 
             - name: Update main repository submodule reference
