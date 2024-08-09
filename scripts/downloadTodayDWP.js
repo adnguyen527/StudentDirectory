@@ -60,7 +60,7 @@ export async function downloadTodayDWP() {
     // list of download locations
     const downloadPaths = [
         path.resolve(""),
-        path.resolve(
+        // path.resolve(
         //     process.cwd(),
         //     `report-data/reports/downloaded_dwps/${getFormattedDate()}`
         // ),
