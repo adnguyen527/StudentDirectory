@@ -46,6 +46,11 @@ jobs:
                   git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/report-data.git
                   git fetch origin
                   git checkout -f main
+                  # Apply orphan commit to main branch if it exists
+                  orphan_commit_sha=$(git reflog show --format=%H | grep -v -E '^[0-9a-f]{7}' | head -n 1)
+                  if [ -n "$orphan_commit_sha" ]; then
+                    git cherry-pick $orphan_commit_sha || echo "Conflict during cherry-pick. Manual intervention might be required."
+                  fi
                   git reset --hard
                   git clean -fd
 
