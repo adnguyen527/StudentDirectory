@@ -1,0 +1,43 @@
+name: Daily DWP Download
+
+on:
+    schedule:
+        - cron: "0 2 * * *" # Runs at 21:00 CST daily (2AM UTC)
+    workflow_dispatch:
+
+jobs:
+    run-script:
+        runs-on: ubuntu-latest
+
+        env:
+            TZ: America/Chicago # Set your desired time zone here
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v3 # Sets up Node.js environment
+              with:
+                  node-version: "16" # Specify the Node.js version you need
+
+            - name: Install dependencies
+              run: |
+                  export PUPPETEER_DOWNLOAD_TIMEOUT=100000
+                  npm install # Install dependencies defined in package.json
+
+            - name: Run script
+              run: node 'DWP Reports/runDailyDWPReports.js'
+              env:
+                  PUPPETEER_EXECUTABLE_PATH: "/usr/bin/google-chrome-stable"
+
+            - name: Configure git
+              run: |
+                  git config --global user.name "adnguyen527"
+                  git config --global user.email "adnguyen527@gmail.com"
+
+            - name: Commit changes
+              run: |
+                  git add .
+                  git commit -m "Add downloaded files - $(date +'%Y-%m-%d')" || echo "No changes to commit"
+                  git push origin ${{github.ref_name}}

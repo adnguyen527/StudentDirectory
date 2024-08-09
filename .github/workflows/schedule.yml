@@ -1,8 +1,8 @@
 name: Run Script Daily
 
 on:
-    schedule:
-        - cron: "0 2 * * *" # Runs at 21:00 CST daily (2AM UTC)
+    #schedule:
+    #- cron: "0 2 * * *" # Runs at 21:00 CST daily (2AM UTC)
     workflow_dispatch:
 
 jobs:
@@ -45,7 +45,7 @@ jobs:
                   cd report-data
                   git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/report-data.git
                   git fetch origin
-                  git checkout main
+                  git checkout -f main
                   # Apply orphan commit to main branch if it exists
                   orphan_commit_sha=$(git reflog show --format=%H | grep -v -E '^[0-9a-f]{7}' | head -n 1)
                   if [ -n "$orphan_commit_sha" ]; then
