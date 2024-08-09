@@ -46,6 +46,7 @@ jobs:
                   git add .
                   # Commit with the current date in the message
                   git commit -m "Add downloaded files - $(date +'%Y-%m-%d')" || echo "No changes to commit"
+                  git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/report-data.git
                   git push origin main
 
             - name: Update main repository submodule reference
@@ -53,6 +54,7 @@ jobs:
                   cd $GITHUB_WORKSPACE
                   git add report-data
                   git commit -m "Update submodule reference - $(date +'%Y-%m-%d')" || echo "No changes to commit"
+                  git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/StudentDirectory.git
                   git push origin ${{github.ref_name}}
               env:
                   GITHUB_TOKEN: ${{ secrets.SUBMODULE_PAT }}
