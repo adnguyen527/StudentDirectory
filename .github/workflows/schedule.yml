@@ -40,6 +40,12 @@ jobs:
                   git config --global user.name "adnguyen527"
                   git config --global user.email "adnguyen527@gmail.com"
 
+            - name: Ensure clean working directory in submodule
+              run: |
+                  cd path/to/submodule
+                  git reset --hard
+                  git clean -fd
+
             - name: Commit changes to submodule
               run: |
                   cd report-data
