@@ -42,9 +42,9 @@ jobs:
 
             - name: Commit changes to submodule
               run: |
+                  git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/report-data.git
                   git submodule update --remote --merge
                   cd report-data
-                  git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/report-data.git
                   git add .
                   # Commit with the current date in the message
                   git commit -m "Add downloaded files - $(date +'%Y-%m-%d')" || echo "No changes to commit"
