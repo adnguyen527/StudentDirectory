@@ -42,7 +42,6 @@ jobs:
 
             - name: Commit changes to submodule
               run: |
-                  git submodule update --remote --merge
                   cd report-data
                   git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/report-data.git
                   git fetch --all --verbose
