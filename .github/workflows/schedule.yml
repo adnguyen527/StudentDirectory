@@ -16,7 +16,7 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v3
               with:
-                  token: ${{ secrets.SUBMODULE_PAT }}
+                  token: ${{ secrets.GITHUB_TOKEN }}
                   persist-credentials: false
                   submodules: recursive
 
@@ -42,7 +42,7 @@ jobs:
 
             - name: Commit changes to submodule
               run: |
-                  git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/report-data.git
+                  git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/adnguyen527/report-data.git
                   git submodule update --remote --merge
                   cd report-data
                   git add .
@@ -58,7 +58,7 @@ jobs:
                   git stash
                   git pull origin ${{github.ref_name}} --rebase || exit 1 # Ensure have the latest changes
                   git stash pop || echo "No stashed changes to apply"
-                  git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/StudentDirectory.git
+                  git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/adnguyen527/StudentDirectory.git
                   git push origin ${{github.ref_name}}
               env:
-                  GITHUB_TOKEN: ${{ secrets.SUBMODULE_PAT }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
