@@ -43,7 +43,7 @@ jobs:
             - name: Commit changes to submodule
               run: |
                   cd report-data
-                  git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@githuab.com/adnguyen527/report-data.git
+                  git remote set-url origin https://x-access-token:${{ secrets.SUBMODULE_PAT }}@github.com/adnguyen527/report-data.git
                   git fetch
                   git checkout $(git rev-list --max-count=1 HEAD)
                   git add .
